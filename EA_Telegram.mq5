@@ -5,7 +5,6 @@
 #include <Trade/SymbolInfo.mqh>
 #include <Telegram.mqh>
 
-
 CCustomBot    bot;      // BOT TELEGRAM
 
 
@@ -13,43 +12,72 @@ CCustomBot    bot;      // BOT TELEGRAM
  * CONFIGURAÇÃO TELEGRAM        *
  * 
 ******************************/
-string id_telegram = "000000000000000";                                      //ID do Canal
-string Token       = "00000000000000000000000"; // Chave do bot
-
+string id_telegram = "000000"; // //ID do Canal
+string Token       = "00000"; // Chave do bot
+//--------------------------------------------------------------------------------------
 
 
 int OnInit(){ 
    
-   bot.Token(Token);
-  
-   print();
-   
+   //Removendo todos indicadores na tela
+    RemoverIndicadores();
+   //Mensagem inicial do Robo 
+   mensagem(); 
    
    return(INIT_SUCCEEDED);
 }
    
 //FUNCAO DE SAIR
 void OnDeinit(const int reason){
-   
+   RemoverIndicadores();
 }
 
 //FUNCAO TICK A CADA TICK DO MERCADO
 void OnTick(){
-   
+ 
   
- } 
-     
-// classe para tirar foto e enviar para o telegram
+} 
+
+void RemoverIndicadores(){
+
+//Remove todos os indicadores do grafico
+   int subwindows =ChartGetInteger(0,CHART_WINDOWS_TOTAL);
+
+   for(int i=subwindows;i>=0;i--)
+   {
+      int indicators=ChartIndicatorsTotal(0,i);
+
+      for(int j=indicators-1; j>=0; j--)
+      {
+         ChartIndicatorDelete(0,i,ChartIndicatorName(0,i,j));
+      }
+   }
+ }
+ 
 void print(){
-  ChartScreenShot(0,"Print.png",400,400,ALIGN_CENTER);
    
-  string filename="Print.png" ;   
-  string photo_id;
+  bot.Token(Token);
   
-   int result=bot.SendPhoto(photo_id, id_telegram,filename);
+  //Print da Tela
+  ChartScreenShot(0,"Print.png",400,400,ALIGN_CENTER);
+     
+   string photo_id;
+   
+   int result=bot.SendPhoto(photo_id, id_telegram,"Print.png");
       if(result==0)
          Print("Photo ID: ",photo_id);
       else
          Print("Error: ",GetErrorDescription(result));
-
+ }
+ 
+ void mensagem(){
+   bot.Token(Token);
+   bot.XSendMessage(id_telegram, ":::======== RSI ALERTA ========:::"
+                                 +"\n" + "Período: "  + Period()
+                                 +"\n" + "Simbolo: " +Symbol()  
+                                 +"\n" + TimeCurrent()
+                                 +"\n" + ":::===========================:::" 
+                   );
+   
+ 
  }
