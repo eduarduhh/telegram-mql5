@@ -2,7 +2,6 @@
 #property link      "https://www.mql5.com"
 #property version   "1.00"
 
-#include <Trade/SymbolInfo.mqh>
 #include <Telegram.mqh>
 
 CCustomBot    bot;      // BOT TELEGRAM
@@ -22,7 +21,10 @@ int OnInit(){
    //Removendo todos indicadores na tela
     RemoverIndicadores();
    //Mensagem inicial do Robo 
-   mensagem(); 
+   mensagem();
+   //2 segunsos
+   Sleep(2000); 
+   print();
    
    return(INIT_SUCCEEDED);
 }
