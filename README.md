@@ -1,2 +1,2 @@
 <b>MQL5 TELEGRAM</b>
-<p>Códigos usando a API do Telegram pelo MQL5 usando o método de ScreenShot(Print)  e envio da foto para o Telegram.</p>
+<p>Utilizando a API do Telegram com MQL5 para fazer ScreenShot(Print) e envio da foto para o Telegram.</p>
